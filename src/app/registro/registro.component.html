@@ -1,0 +1,97 @@
+<div class="registro-container">
+  <div class="logo-container">
+   <!-- <img src="assets/capgemini-logo.png" alt="Capgemini" class="logo"> --->
+  </div>
+  
+  <div class="registro-card">
+    <h1 class="sistema-title">Sistema de Gestión de Horas Extras</h1>
+    <h2 class="crear-cuenta">Crear cuenta</h2>
+    <p class="subtitle">Por favor ingresa los datos para continuar</p>
+    
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+      <!-- Nombre Completo -->
+      <div class="form-group">
+        <label for="fullname">Nombre Completo</label>
+        <input 
+          id="fullname"
+          type="text"
+          formControlName="fullname"
+          [class.is-invalid]="fullnameInvalid"
+        >
+      </div>
+
+      <!-- Cédula -->
+      <div class="form-group">
+        <label for="cedula">Cédula</label>
+        <input 
+          id="cedula"
+          type="text"
+          formControlName="cedula"
+          [class.is-invalid]="cedulaInvalid"
+        >
+      </div>
+
+      <!-- Pregunta de Seguridad -->
+      <div class="form-group">
+        <label for="preguntas">Pregunta de seguridad</label>
+        <select id="preguntas" formControlName="preguntas" [class.is-invalid]="preguntasInvalid">
+          <option value="">Seleccione una pregunta</option>
+          <option *ngFor="let pregunta of preguntas" [value]="pregunta.id">{{ pregunta.pregunta }}</option>
+        </select>
+      </div>
+      
+      <!-- Respuesta de Seguridad -->
+      <div class="form-group">
+        <label for="respuestaSeguridad">Respuesta</label>
+        <input 
+          id="respuestaSeguridad"
+          type="text"
+          formControlName="respuestaSeguridad"
+          [class.is-invalid]="respuestaSeguridadInvalid"
+        >
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <div class="password-container">
+          <input 
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            [class.is-invalid]="passwordInvalid"
+          >
+          <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+            <i class="far" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirmar Contraseña -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar contraseña</label>
+        <div class="password-container">
+          <input 
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            [class.is-invalid]="confirmPasswordInvalid"
+          >
+          <button type="button" class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+            <i class="far" [class.fa-eye]="!showConfirmPassword" [class.fa-eye-slash]="showConfirmPassword"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Submit -->
+      <button type="submit" class="submit-button">
+        Crear Cuenta
+      </button>
+
+      <!-- Link a inicio de sesión -->
+      <div class="login-link">
+        Ya tienes cuenta? <a href="/login">Iniciar sesión</a>
+      </div>
+    </form>
+  </div>
+</div>

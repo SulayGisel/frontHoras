@@ -1,0 +1,33 @@
+.registro-container {
+  padding: 20px;
+}
+
+.turno-form-container {
+  margin-bottom: 30px;
+}
+
+.agregar-btn-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.boton-editar {
+  color: #12406d;
+}
+
+.boton-eliminar {
+  color: #d32f2f;
+}
+
+.custom-blue-select {
+  border: 1px solid #1976d2;
+}
+
+.date-field-fix {
+  margin-top: 10px;
+}
+
+.yellow-bordered-field {
+  border-color: #fbc02d;
+}

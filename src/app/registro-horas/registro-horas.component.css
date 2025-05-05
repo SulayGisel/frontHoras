@@ -1,0 +1,266 @@
+.registro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  .turno-form-container {
+    width: 100%;
+    max-width: 800px;
+  }
+  .registro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: black; /* Etiquetas en color negro */
+  }
+  
+  .form-control,
+  .form-select {
+    width: 100%;
+    padding: 10px;
+    height: 38px;
+    border: 1px solid #4285F4;
+    border-radius: 8px;
+    font-size: 14px;
+    color: black; /* Texto negro */
+    box-sizing: border-box;
+  }
+  
+  .form-control::placeholder {
+    color: #aaa; /* Placeholder en tono suave */
+  }
+  
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: #007bff; /* Resalta en azul */
+  }
+  
+  .turno-form-container {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .card {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .card .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+  }
+  
+  .card .card-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #4285F4;
+  }
+  
+  .card .card-body {
+    padding: 20px;
+  }
+
+  .d-flex {
+    display: flex;
+    gap: 16px;
+  }
+  .d-flex > div {
+    flex: 1;
+  }
+
+  .blue-bordered-field {
+    .mat-form-field-outline {
+      color: #1976d2;
+    }
+  
+    .mat-form-field-outline-thick {
+      border-color: #1976d2;
+    }
+  }
+  /* Estilos para el campo de fecha */
+::ng-deep .mat-date-range-input {
+  border-radius: 8px;
+}
+
+/* Estilos para el campo de fecha con corrección */
+.date-field-fix {
+  width: 100%;
+}
+
+/* Eliminar los estilos de borde predeterminados de Material */
+::ng-deep .date-field-fix .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+::ng-deep .date-field-fix .mat-mdc-form-field-flex {
+  border: 2px solid #1976d2;
+  border-radius: 8px !important;
+  background-color: white;
+  padding: 0 10px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* Eliminar notch outline */
+::ng-deep .date-field-fix .mdc-notched-outline {
+  display: none !important;
+}
+
+/* Ajustar padding interno */
+::ng-deep .date-field-fix .mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  min-height: 40px;
+}
+
+/* Eliminar espacios extras */
+::ng-deep .date-field-fix .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/*bptpnes*/
+/* Botones de acción */
+.action-button {
+  min-width: 120px;
+  padding: 10px 24px;
+  font-weight: 500;
+  border-radius: 8px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border: none !important;
+}
+
+/* Separación específica para el botón de agregar */
+.action-button.me-3 {
+  margin-right: 16px !important;
+}
+
+/* Si quieres más separación en pantallas pequeñas */
+@media (max-width: 768px) {
+  .action-button.me-3 {
+    margin-right: 0 !important;
+    margin-bottom: 10px;
+  }
+}
+
+/* Personalización del botón primario */
+button[color="primary"] {
+  background-color: #4285F4 !important;
+  color: white !important;
+}
+
+button[color="primary"]:hover {
+  background-color: #3367d6 !important;
+}
+
+/* Personalización del botón de cancelar */
+button[color="warn"] {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+button[color="warn"]:hover {
+  background-color: #c82333 !important;
+}
+
+/* Estilo para la tabla Angular Material */
+.table-hover {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table-hover th,
+.table-hover td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px 12px;
+}
+
+.table-hover th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.table-hover tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-hover tr:last-child {
+  border-bottom: none;
+}
+
+.bg-light-blue {
+  background-color: #eaf4ff !important;
+}
+
+/* Botones de acción en la tabla */
+.boton-editar {
+  background-color: #43a047 !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  min-width: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin-right: 8px;
+  box-shadow: none;
+  border: none;
+  transition: background 0.2s;
+}
+.boton-editar:hover {
+  background-color: #2e7031 !important;
+}
+.boton-editar mat-icon {
+  color: #fff !important;
+}
+
+.boton-eliminar {
+  background-color: #ef5350 !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  min-width: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  box-shadow: none;
+  border: none;
+  transition: background 0.2s;
+}
+.boton-eliminar:hover {
+  background-color: #c82333 !important;
+}
+.boton-eliminar mat-icon {
+  color: #fff !important;
+}
+
+/* Responsive para la tabla */
+@media (max-width: 768px) {
+  .table-hover th,
+  .table-hover td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+}

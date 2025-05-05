@@ -1,0 +1,278 @@
+<div class="registro-container">
+  <div class="turno-form-container">
+    <!-- Sección de Registro de turnos -->
+    <div class="card mb-4">
+      <div class="card-header bg-white">
+        <h2 class="text-primary">
+          {{ editandoTurno ? "Editar turno" : "Registro de turnos" }}
+        </h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="turnoForm" (ngSubmit)="onSubmit()">
+          <!-- Nombre turno y Código en la misma fila -->
+          <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="nombre">Nombre turno</label>
+                <input
+                  id="nombre"
+                  type="text"
+                  formControlName="nombre"
+                  [class.is-invalid]="fullnameInvalid"
+                  class="form-control"
+                />
+                <small class="text-danger" *ngIf="fullnameInvalid">
+                  El nombre del turno es requerido
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="codigo">Código</label>
+                <input
+                  id="codigo"
+                  type="text"
+                  formControlName="codigo"
+                  [class.is-invalid]="codigoInvalid"
+                  class="form-control"
+                />
+                <small class="text-danger" *ngIf="codigoInvalid">
+                  El código es requerido
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hora inicio y Hora fin en la misma fila -->
+          <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="horaInicio">Hora inicio</label>
+                <input
+                  type="time"
+                  class="form-control"
+                  id="horaInicio"
+                  formControlName="horaInicio"
+                  placeholder="0800"
+                  [class.is-invalid]="horaInicioInvalid"
+                />
+                <small class="text-danger" *ngIf="horaInicioInvalid">
+                  Formato requerido: 4 dígitos (ej. 08:00)
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="horaFin">Hora fin</label>
+                <input
+                  type="time"
+                  class="form-control"
+                  id="horaFin"
+                  formControlName="horaFin"
+                  placeholder="1700"
+                  [class.is-invalid]="horaFinInvalid"
+                />
+                <small class="text-danger" *ngIf="horaFinInvalid">
+                  Formato requerido: 4 dígitos (ej. 17:00)
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Día inicio y Día fin en la misma fila -->
+          <div class="row gx-3 mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="diaInicio">Día inicio</label>
+                <select
+                  class="form-select"
+                  id="diaInicio"
+                  formControlName="diaInicio"
+                  [class.is-invalid]="diaInicioInvalid"
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="lunes">Lunes</option>
+                  <option value="martes">Martes</option>
+                  <option value="miercoles">Miércoles</option>
+                  <option value="jueves">Jueves</option>
+                  <option value="viernes">Viernes</option>
+                  <option value="sabado">Sábado</option>
+                  <option value="domingo">Domingo</option>
+                </select>
+                <small class="text-danger" *ngIf="diaInicioInvalid">
+                  Seleccione el día de inicio
+                </small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="diaFin">Día fin</label>
+                <select
+                  class="form-select"
+                  id="diaFin"
+                  formControlName="diaFin"
+                  [class.is-invalid]="diaFinInvalid"
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="lunes">Lunes</option>
+                  <option value="martes">Martes</option>
+                  <option value="miercoles">Miércoles</option>
+                  <option value="jueves">Jueves</option>
+                  <option value="viernes">Viernes</option>
+                  <option value="sabado">Sábado</option>
+                  <option value="domingo">Domingo</option>
+                </select>
+                <small class="text-danger" *ngIf="diaFinInvalid">
+                  Seleccione el día de fin
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="turnoForm.invalid"
+            >
+              {{ editandoTurno ? "Actualizar" : "Agregar" }}
+            </button>
+            <button
+              *ngIf="editandoTurno"
+              type="button"
+              class="btn btn-secondary ms-2"
+              (click)="cancelarEdicion()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Sección de Listado de turnos -->
+    <div class="card">
+      <div class="card-header bg-white">
+        <h2 class="text-primary">Listado de turnos</h2>
+
+        <!-- Búsqueda -->
+        <div class="mt-3">
+          <div class="input-group">
+            <span class="input-group-text"></span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar turnos..."
+              (input)="buscar($event)"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr class="text-center">
+                <th scope="col">Nombre</th>
+                <th scope="col">Código</th>
+                <th scope="col">Hora inicio</th>
+                <th scope="col">Día inicio</th>
+                <th scope="col">Hora Fin</th>
+                <th scope="col">Día fin</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (turno of turnosPaginados; track turno.idTurno) {
+              <tr class="bg-light-blue text-center">
+                <td>{{ turno.nombre }}</td>
+                <td>{{ turno.codigo }}</td>
+                <td>{{ turno.horaInicio | date : "HH:mm" }}</td>
+                <td>{{ turno.diaInicio }}</td>
+                <td>{{ turno.horaFin | date : "HH:mm" }}</td>
+                <td>{{ turno.diaFin }}</td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-icon me-2"
+                    (click)="editarTurno(turno)"
+                  >
+                    <i class="fas fa-pencil-alt"></i>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-icon"
+                    (click)="eliminarTurno(turno.idTurno!)"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="7" class="text-center py-3">
+                  No hay turnos registrados
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginación -->
+        <div
+          class="d-flex justify-content-center p-3"
+          *ngIf="turnosFiltrados.length > 0"
+        >
+          <nav aria-label="Navegación de turnos">
+            <ul class="pagination">
+              <li class="page-item" [class.disabled]="paginaActual === 1">
+                <a
+                  class="page-link"
+                  href="javascript:void(0)"
+                  (click)="paginaAnterior()"
+                >
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+              </li>
+              @for (pagina of arregloPaginas(); track pagina) {
+              <li class="page-item" [class.active]="pagina === paginaActual">
+                <a
+                  class="page-link"
+                  href="javascript:void(0)"
+                  (click)="cambiarPagina(pagina)"
+                >
+                  {{ pagina }}
+                </a>
+              </li>
+              }
+              <li
+                class="page-item"
+                [class.disabled]="paginaActual === totalPaginas"
+              >
+                <a
+                  class="page-link"
+                  href="javascript:void(0)"
+                  (click)="paginaSiguiente()"
+                >
+                  <i class="fas fa-chevron-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div
+          class="text-center pb-3 text-muted"
+          *ngIf="turnosFiltrados.length > 0"
+        >
+          Pagina {{ (paginaActual - 1) * itemsPorPagina + 1 }} -
+          {{ Math.min(paginaActual * itemsPorPagina, turnosFiltrados.length) }}
+          de {{ turnosFiltrados.length }} turnos
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</div>

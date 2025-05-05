@@ -1,0 +1,46 @@
+<!-- sidebar.component.html -->
+<div class="sidebar left">
+  <div class="admin-header">
+    <i class="fa fa-user-circle admin-icon"></i>
+    <span>Administrador</span>
+  </div>
+
+  <div class="section-title">Favoritos</div>
+  <ul class="menu-list">
+    <li *ngFor="let item of menuItems.favoritos" 
+        class="menu-item"
+        [routerLink]="item.link"
+        routerLinkActive="active">
+      <i class="fa fa-circle"></i>
+      {{item.title}}
+    </li>
+  </ul>
+
+  <div class="section-title">Tableros</div>
+  <div>
+    <span [routerLink]="['/maestroTurno']" style="cursor: pointer; color: rgb(68, 68, 77); ">
+      Maestro turno
+    </span>
+  </div>
+  <div>
+    <span [routerLink]="['/maestroHoraLegal']" style="cursor: pointer; color: rgb(68, 68, 77)">
+     Tipo de  hora extra
+    </span>
+  </div>
+  <div>
+    <span [routerLink]="['/registrohora']" style="cursor: pointer; color: rgb(68, 68, 77)">
+     Registrar Horas extras
+    </span>
+  </div>
+  <div>
+  <span [routerLink]="['/listarUsuario']" style="cursor: pointer; color: rgb(68, 68, 77)">
+   Usuarios
+  </span>
+</div>
+
+<div>
+  <span [routerLink]="['/RegistroTurno']" style="cursor: pointer; color: rgb(68, 68, 77)">
+   AsignacionTurno
+  </span>
+</div>
+</div>

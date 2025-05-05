@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="table-container">
+    <h3>Listado de usuarios</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cédula</th>
+          <th>Estado</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios" [attr.data-id]="usuario.id">
+          <td>{{ usuario.fullname }}</td>
+          <td>{{ usuario.cedula }}</td>
+          <td>
+            <select [(ngModel)]="usuario.estado" (change)="detectarCambiosEstado(usuario)">
+              <option [ngValue]="true">Activo</option>
+              <option [ngValue]="false">Inactivo</option>
+            </select>
+          </td>
+          <td>
+            <select [(ngModel)]="usuario.rol" (change)="detectarCambiosRol(usuario)">
+              <option *ngFor="let role of roles" [ngValue]="role">
+                {{ role.nombre }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <button class="save-btn"
+                    [disabled]="!usuario.cambiosPendientes"
+                    [class.changes-pending]="usuario.cambiosPendientes"
+                    (click)="actualizarUsuario(usuario)">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+          </td>
+          <td>
+            <button class="lock-btn" (click)="abrirPopup(usuario)">
+              <i class="fas fa-lock"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <!-- Modal para cambiar contraseña -->
+  <div class="modal-overlay" *ngIf="mostrarPopup">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Cambiar Contraseña</h3>
+      </div>
+      <div class="modal-body">
+        <p *ngIf="usuarioSeleccionado">Usuario: <strong>{{ usuarioSeleccionado.fullname }}</strong></p>
+        
+        <div class="form-group">
+          <label for="nuevaContrasena">Nueva Contraseña:</label>
+          <div class="password-wrapper">
+            <input 
+              [type]="mostrarContrasena ? 'text' : 'password'" 
+              id="nuevaContrasena" 
+              [(ngModel)]="nuevaContrasena" 
+              placeholder="Ingrese la nueva contraseña">
+            <button type="button" class="toggle-btn" (click)="mostrarContrasena = !mostrarContrasena">
+              {{ mostrarContrasena ? '🙈' : '👁️' }}
+            </button>
+          </div>
+        </div>
+        <!---
+        <div class="form-group">
+          <label for="nuevaContrasena">Confirmar Contraseña:</label>
+          <input type="password" id="nuevaContrasena" [(ngModel)]="nuevaContrasena" placeholder="Ingrese la nueva contraseña">
+        </div>
+      --->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cerrarPopup()">Cancelar</button>
+        <button class="btn btn-primary" (click)="asignarContrasena()">Guardar</button>
+      </div>
+    </div>
+  </div>

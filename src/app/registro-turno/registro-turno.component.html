@@ -1,0 +1,179 @@
+<div class="registro-container">
+  <div class="turno-form-container">
+    <div class="card mb-4">
+      <div class="card-header bg-white">
+        <h2 class="text-primary">
+          {{ editandoTurno ? "Editar turno" : "Programación Mensual de Turnos" }}
+        </h2>
+      </div>
+
+      <div class="card-body">
+        <form [formGroup]="AsignacionTurnoForm" (ngSubmit)="onSubmit()">
+          <!-- Primera fila: Turnos y Periodo U alineados -->
+     <!-- Primera fila: Turnos y Periodo U alineados correctamente -->
+
+
+    <!-- Primera fila: Turnos y Periodo U alineados correctamente -->
+<div class="row gx-3 mb-3">
+  <!-- Turnos -->
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="diaInicio">Turnos</label>
+      <select
+        class="form-select custom-blue-select"
+        id="diaInicio"
+        formControlName="turnoFK"
+      >
+        <option value="">Seleccionar</option>
+        <ng-container *ngIf="codigo && codigo.length > 0">
+          <option *ngFor="let item of codigo" [value]="item.idTurno">
+            {{ item.codigo }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
+  </div>
+  
+  <!-- Periodo U con borde azul corregido -->
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="periodoU">Periodo U</label>
+      <mat-form-field class="w-100 date-field-fix" appearance="outline">
+        <!-- Eliminamos el mat-label duplicado -->
+        <mat-date-range-input [rangePicker]="pickerU">
+          <input matStartDate formControlName="fechaInicio" placeholder="Fecha inicio" />
+          <input matEndDate formControlName="fechaFin" placeholder="Fecha fin" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="pickerU"></mat-datepicker-toggle>
+        <mat-date-range-picker #pickerU></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+
+
+
+          <!-- Segunda fila: Asignación múltiple ocupa todo el ancho -->
+          <div >
+            <div class="col-12">
+              <div class="form-group">
+                <label for="asignacionM">Asignación múltiple</label>
+                <mat-form-field class="w-100 yellow-bordered-field">
+                  <mat-chip-grid
+                    #chipList
+                    aria-label="Seleccionar ingenieros"
+                    formControlName="ingenierosAsignados"
+                  >
+                    <mat-chip id="asignacionM"
+                      *ngFor="let ingeniero of selectedIngenieros"
+                      [removable]="true"
+                      (removed)="remove(ingeniero)"
+                    >
+                      {{ ingeniero.fullname }}
+                      <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                      matInput
+                      placeholder="Agregar"
+                      #ingenieroInput
+                      [formControl]="ingenieroCtrl"
+                      [matAutocomplete]="auto"
+                      [matChipInputFor]="chipList" />
+                  </mat-chip-grid>
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let ing of filteredIngenieros | async" [value]="ing">
+                      {{ ing.fullname }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones alineados a la derecha -->
+          <div class="agregar-btn-right mt-4 mb-4">
+            <button
+              type="submit"
+              mat-raised-button
+              color="primary"
+              class="action-button me-3">
+              {{ editandoTurno ? "Actualizar" : "Agregar" }}
+            </button>
+            <button
+              *ngIf="editandoTurno"
+              type="button"
+              mat-raised-button
+              color="warn"
+              class="action-button"
+              (click)="cancelarEdicion()">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+
+     
+
+<!--aqui comienza la logica para filtrar el mes en la tabla -->
+ <!-- Formulario de filtrado para la tabla (AsignacionTurnoFormMes) -->
+<!-- Formulario de filtrado para la tabla -->
+<!-- Formulario de filtrado para configurar las pestañas -->
+<div class="card-body">
+  <form [formGroup]="AsignacionTurnoFormMes">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="mes">Mes</label>
+        <select class="form-select" id="mes" formControlName="mes">
+          <option value="">Seleccionar</option>
+          <option *ngFor="let mes of nombresMeses; let i = index" [value]="i">
+            {{ mes }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Mat Tab Group con pestañas generadas dinámicamente -->
+<mat-tab-group *ngIf="usuarioTurnosPorSemana.length > 0">
+  <mat-tab *ngFor="let semana of usuarioTurnosPorSemana; let i = index" [label]="'Semana ' + (i + 1)">
+    <div class="table-responsive">
+      <table class="table table-hover text-center">
+        <thead class="table-light">
+          <tr>
+            <th>Ingeniero</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Turno</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turno of semana" >
+            <td>{{ turno.fullname }}</td>
+            <td>{{ turno.fechaInicio | date: 'shortDate' }}</td>
+            <td>{{ turno.fechaFin | date: 'shortDate' }}</td>
+            <td>{{ turno.codigo }}</td>
+            <td>
+              <button mat-icon-button class="boton-editar" aria-label="Editar" (click)="editarTurno(turno)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button class="boton-eliminar" aria-label="Eliminar" (click)="eliminarTurno(turno.idUsuarioTurno)" >
+                <img src="https://cdn.jsdelivr.net/npm/@mdi/svg/svg/delete.svg" alt="Eliminar" width="24" height="24" style="filter: invert(1);" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+</div>
+</div>
+</div>
+
+
+
+
+

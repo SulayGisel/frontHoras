@@ -1,0 +1,14 @@
+<div class="notifications-sidebar">
+  <h2>Notificaciones</h2>
+  <div class="notifications-list">
+    <div class="notification-item" *ngFor="let notification of notifications">
+      <div class="notification-icon">
+        <i [class]="notification.icon"></i>
+      </div>
+      <div class="notification-content">
+        <div class="notification-message">{{ notification.message }}</div>
+        <div class="notification-time">{{ notification.time }}</div>
+      </div>
+    </div>
+  </div>
+</div>

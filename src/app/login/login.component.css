@@ -1,0 +1,192 @@
+.login-container {
+  min-height: 80vh;
+  background: white;
+}
+
+.header {
+  padding-left: 20px ;
+  text-align: left;
+}
+
+.logo {
+  height: 30px;
+  width: auto;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.form-section {
+  width: 100%;
+  text-align: center;
+}
+
+.form-section h1 {
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.form-section h2 {
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: #999;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Contenedor común para mantener el mismo ancho */
+.form-wrapper {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  text-align: left;
+  margin-left: 8px;
+  color: #0070ad;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  height: 35px;
+  padding: 8px 40px 8px 15px;
+  border: 1px solid #0070ad;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+.form-group input::placeholder {
+  color: #999; /* Color más claro para el placeholder */
+  opacity: 1; /* Firefox */
+}
+
+.form-group input:-ms-input-placeholder {
+  color: #999; /* Internet Explorer 10-11 */
+}
+
+.form-group input::-ms-input-placeholder {
+  color: #999; /* Microsoft Edge */
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0070ad;
+}
+
+.submit-button {
+  width: 100%; /* Asegura que tome todo el ancho disponible */
+  height: 35px;
+  background: #0070ad;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+.submit-button:hover {
+  background: #005a8c;
+}
+
+.links-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.forgot-link {
+  color: #0070ad;
+  text-decoration: none;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.create-account {
+  font-size: 14px;
+  color: #666;
+}
+
+.create-link {
+  color: #0070ad;
+  text-decoration: none;
+  margin-left: 5px;
+  text-decoration: underline;
+}
+
+
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 15px;
+  }
+  
+  .form-section h1 {
+    font-size: 28px;
+  }
+  
+  .form-section h2 {
+    font-size: 24px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .form-wrapper {
+    max-width: 100%;
+  }
+}

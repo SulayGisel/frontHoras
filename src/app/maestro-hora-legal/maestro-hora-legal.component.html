@@ -1,0 +1,153 @@
+<div class="registro-container">
+    <div class="turno-form-container">
+      <!-- Sección de Registro de turnos -->
+      <div class="card mb-4">
+        <div class="card-header bg-white">
+          <h2 class="text-primary">
+            {{ editandoTurno ? "Editar tipos de horas extras" : "Tipos de horas extras" }}
+          </h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="horaLegalForm" (ngSubmit)="onSubmit()">
+            <div class="row gx-3 mb-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="codigoHoraExtra">Cod hora legal</label>
+                  <input
+                    id="codigoHoraExtra"
+                    type="text"
+                    formControlName="codigoHoraExtra"
+                    [class.is-invalid]="codHoraLegal"
+                    class="form-control"
+                  />
+                  <small class="text-danger" *ngIf="codHoraLegal">
+                    El codigo de la hora es requerido
+                  </small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="descripcion">Descripción</label>
+                  <input
+                    id="descripcion"
+                    type="text"
+                    formControlName="descripcion"
+                    [class.is-invalid]="descripcionInvalid"
+                    class="form-control"
+                  />
+                  <small class="text-danger" *ngIf="descripcionInvalid">
+                    El descripcion es requerido
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-3 mb-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="horaInicio">Hora inicio</label>
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="horaInicio"
+                    formControlName="horaInicio"
+                    [class.is-invalid]="horaInicioInvalid"
+                  />
+                  <small class="text-danger" *ngIf="horaInicioInvalid">
+                    Formato requerido: 4 dígitos (ej. 08:00)
+                  </small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="horaFin">Hora fin</label>
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="horaFin"
+                    formControlName="horaFin"
+                    [class.is-invalid]="horaFinInvalid"
+                  />
+                  <small class="text-danger" *ngIf="horaFinInvalid">
+                    Formato requerido: 4 dígitos (ej. 17:00)
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mt-4" style="display: flex; justify-content: flex-end; align-items: center;">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!horaLegalForm.valid"
+              >
+                {{ editandoTurno ? "Actualizar" : "Agregar" }}
+              </button>
+              <button
+                *ngIf="editandoTurno"
+                type="button"
+                class="btn btn-secondary ms-2"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+  
+          <!-- Tabla de horas legales -->
+<div class="card mt-4">
+  <div class="card-header bg-white">
+    <h3 class="text-primary mb-0">Tipos de horas legales</h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table-hover w-100">
+
+        <!-- Código de hora -->
+        <ng-container matColumnDef="codigoHoraExtra">
+          <th mat-header-cell *matHeaderCellDef> CÓDIGO DE HORA </th>
+          <td mat-cell *matCellDef="let element"> {{ element.codigoHoraExtra }} </td>
+        </ng-container>
+
+        <!-- Descripción -->
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
+          <td mat-cell *matCellDef="let element"> {{ element.descripcion }} </td>
+        </ng-container>
+
+        <!-- Hora inicio -->
+        <ng-container matColumnDef="horaInicio">
+          <th mat-header-cell *matHeaderCellDef> HORA INICIO </th>
+          <td mat-cell *matCellDef="let element"> {{ element.horaInicio | date:'shortTime' }} </td>
+        </ng-container>
+
+        <!-- Hora fin -->
+        <ng-container matColumnDef="horaFin">
+          <th mat-header-cell *matHeaderCellDef> HORA FIN </th>
+          <td mat-cell *matCellDef="let element"> {{ element.horaFin | date:'shortTime' }} </td>
+        </ng-container>
+
+        <!-- Acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" class="boton-editar" (click)="editarHoraExtra(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" class="boton-eliminar" (click)="eliminarHoraExtra(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-light-blue"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">No hay tipos de horas legales registradas.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+ 
+    </div>
+  </div>
