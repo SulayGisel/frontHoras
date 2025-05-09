@@ -96,13 +96,23 @@ export class RegistroComponent implements OnInit {
 
     this.registroUserService.registerUser(userData).subscribe({
       next: (response) => {
+        console.log('Registro exitoso:', response);
         Swal.fire({
           title: 'Registro exitoso',
           text: 'Tu registro se completó correctamente.',
           icon: 'success',
           confirmButtonText: 'Aceptar'
+        }).then((result) => {
+          console.log('Intentando navegar a /login');
+          this.router.navigate(['/login']).then(
+            nav => {
+              console.log('Navegación exitosa', nav);
+            },
+            err => {
+              console.error('Error en la navegación', err);
+            }
+          );
         });
-        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error(error);

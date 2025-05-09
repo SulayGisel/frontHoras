@@ -12,7 +12,7 @@ import { MaestroHoraLegalComponent } from './maestro-hora-legal/maestro-hora-leg
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    { path: 'registro', component: RegistroComponent ,   canActivate: [authGuard]},
+    { path: 'registro', component: RegistroComponent },
     { path: 'listarUsuario', component: ListarUsuariosComponent ,canActivate: [authGuard]},
     { path: 'recovery', component: RecuperarPasswordComponent ,canActivate: [authGuard]},
     { path: 'maestroTurno', component: MaestroTurnoComponent ,canActivate: [authGuard]},

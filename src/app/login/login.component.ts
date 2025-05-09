@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AxiosService } from '../axios.service';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LoginService } from './services/Login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -71,5 +71,15 @@ export class LoginComponent implements OnInit {
     //     confirmButtonText: 'Aceptar'
     //   });
     // }
+  }
+
+  route(){
+   
+    this.router.navigate(['registro']).then(
+      nav => {
+        console.log('Navegación exitosa', nav);
+      },  err=> console.log('Error en la navegación', err)
+    );
+     console.log('Intentando navegar a /registro');
   }
 }
