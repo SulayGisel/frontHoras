@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AxiosService } from '../axios.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { RegistroUserService } from './services/registroUser';
 
 @Component({
   selector: 'app-registro',
@@ -18,7 +18,11 @@ export class RegistroComponent implements OnInit {
   showPassword = false;
   showConfirmPassword = false;
 
-  constructor(private fb: FormBuilder, private axiosService: AxiosService, private router:Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private registroUserService: RegistroUserService // <--- inyecta el servicio
+  ) {
     this.registroForm = this.fb.group({
       fullname: ['', [Validators.required, Validators.minLength(3)]],
       cedula: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(10),
@@ -39,15 +43,25 @@ export class RegistroComponent implements OnInit {
     this.cargarPreguntas();
   }
 
-
   async cargarPreguntas() {
-    try {
-      const response = await this.axiosService.get('/preguntas');
-      console.log(response);
-      this.preguntas = response.data;
-    } catch (error) {
-      console.error('Error al cargar preguntas:', error);
-    }
+    this.registroUserService.getPreguntas().subscribe({
+      next: (response: any) => {
+        console.log('Preguntas response:', response); // Debug log
+        if (Array.isArray(response)) {
+          this.preguntas = response;
+        } else if (response.data && Array.isArray(response.data)) {
+          this.preguntas = response.data;
+        } else {
+          console.error('Unexpected response format:', response);
+          this.preguntas = [];
+        }
+        console.log('Preguntas processed:', this.preguntas); // Debug log
+      },
+      error: (error) => {
+        console.error('Error al cargar preguntas:', error);
+        this.preguntas = [];
+      }
+    });
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -63,6 +77,7 @@ export class RegistroComponent implements OnInit {
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
+
   async onSubmit() {
     if (!this.registroForm.valid) {
       this.markFormGroupTouched(this.registroForm);
@@ -71,41 +86,42 @@ export class RegistroComponent implements OnInit {
   
     const { fullname, cedula, password, preguntas, respuestaSeguridad } = this.registroForm.value;
   
-    try {
-      const response = await this.axiosService.post('/user', {
-        fullname,
-        cedula,
-        password,
-        preguntas: Number(preguntas),
-        respuestaSeguridad
-      });
-  
-    //  console.log(response);
-      Swal.fire({
-        title: 'Registro exitoso',
-        text: 'Tu registro se completó correctamente.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-      });
-      this.router.navigate(['/login']); // Redirige al login
-      
-    } catch (error: any) {
-      console.error(error);
-  
-      let errorMessage = 'No se pudo registrar. Por favor, verifica tus datos e intenta de nuevo.';
-  
-      if (error.response && error.response.status === 409) {
-        errorMessage = error.response.data.message; // Captura el mensaje del backend
+    const userData = {
+      fullname,
+      cedula,
+      password,
+      preguntas: Number(preguntas),
+      respuestaSeguridad
+    };
+
+    this.registroUserService.registerUser(userData).subscribe({
+      next: (response) => {
+        Swal.fire({
+          title: 'Registro exitoso',
+          text: 'Tu registro se completó correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error(error);
+        let errorMessage = 'No se pudo registrar. Por favor, verifica tus datos e intenta de nuevo.';
+        
+        if (error.status === 409) {
+          errorMessage = error.error.message;
+        }
+
+        Swal.fire({
+          title: 'Error en el registro',
+          text: errorMessage,
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
       }
-  
-      Swal.fire({
-        title: 'Error en el registro',
-        text: errorMessage,
-        icon: 'error',
-        confirmButtonText: 'Aceptar'
-      });
-    }
+    });
   }
+
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();

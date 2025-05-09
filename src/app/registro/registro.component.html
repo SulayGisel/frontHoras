@@ -36,7 +36,9 @@
         <label for="preguntas">Pregunta de seguridad</label>
         <select id="preguntas" formControlName="preguntas" [class.is-invalid]="preguntasInvalid">
           <option value="">Seleccione una pregunta</option>
-          <option *ngFor="let pregunta of preguntas" [value]="pregunta.id">{{ pregunta.pregunta }}</option>
+          <option *ngFor="let pregunta of preguntas" [value]="pregunta.id || pregunta.preguntaId">
+            {{pregunta.pregunta || pregunta.descripcion}}
+          </option>
         </select>
       </div>
       
