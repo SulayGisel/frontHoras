@@ -201,19 +201,11 @@ export class RegistroTurnoComponent implements OnInit {
       (mesIndexStr: string) => {
         const mesIndex = Number(mesIndexStr);
         if (!isNaN(mesIndex)) {
+          // Obtener la cantidad de semanas para este mes
           const semanas = this.calcularSemanasDelMes(mesIndex);
-          // this.cabeceras = Array.from({ length: semanas }, (_, i) => `Semana ${i + 1}`);
-          // this.cabeceras = this.usuarioTurnosPorSemana.map((_, i) => `Semana ${i + 1}`);
-
-          // Aquí aplicamos el filtro por mes y luego agrupamos
-          this.usuarioTurnosFiltrados = this.usuarioTurnos.filter((turno) => {
-            const fecha = new Date(turno.fechaInicio);
-            return fecha.getMonth() === mesIndex;
-          });
-
-          this.usuarioTurnosPorSemana = this.separarTurnosPorSemana(
-            this.usuarioTurnosFiltrados
-          );
+          
+          // Aplicar el filtro por mes y distribuir en semanas
+          this.filtrarTurnosPorMesYDistribuirEnSemanas(mesIndex);
         } else {
           this.cabeceras = [];
           this.usuarioTurnosFiltrados = [];
@@ -222,20 +214,88 @@ export class RegistroTurnoComponent implements OnInit {
       }
     );
   }
+  
+  // Método para filtrar turnos por mes y distribuirlos en semanas
+  filtrarTurnosPorMesYDistribuirEnSemanas(mesIndex: number): void {
+    // Filtra los turnos que tienen alguna intersección con el mes seleccionado
+    this.usuarioTurnosFiltrados = this.usuarioTurnos.filter((turno) => {
+      const inicio = new Date(turno.fechaInicio);
+      const fin = new Date(turno.fechaFin);
+      
+      // El turno intersecta con el mes si:
+      // 1. El mes está dentro del rango de fechas (inicio <= mes <= fin)
+      // 2. O el mes contiene la fecha de inicio o la fecha de fin
+      const mesInicio = inicio.getMonth();
+      const mesFin = fin.getMonth();
+      
+      return (mesInicio <= mesIndex && mesFin >= mesIndex);
+    });
+
+    // Distribuir los turnos en las semanas del mes
+    this.distribuirTurnosEnSemanas(mesIndex);
+  }
+  
+  // Método para distribuir los turnos en las semanas correspondientes
+  distribuirTurnosEnSemanas(mesIndex: number): void {
+    // Obtener información del mes
+    const anio = this.anio;
+    const primerDiaMes = new Date(anio, mesIndex, 1);
+    const ultimoDiaMes = new Date(anio, mesIndex + 1, 0);
+    
+    // Calcular el primer día de la semana (lunes) que incluye o precede al primer día del mes
+    const primerLunes = new Date(primerDiaMes);
+    const diaSemana = primerDiaMes.getDay(); // 0 = domingo, 1 = lunes, ...
+    const ajusteDias = diaSemana === 0 ? 6 : diaSemana - 1; // Para que el lunes sea el día 0
+    primerLunes.setDate(primerLunes.getDate() - ajusteDias);
+    
+    // Calcular cuántas semanas hay en el mes
+    const totalSemanas = this.calcularSemanasDelMes(mesIndex);
+    
+    // Inicializar el array de semanas
+    this.usuarioTurnosPorSemana = Array(totalSemanas).fill(null).map(() => []);
+    
+    // Para cada turno filtrado, determinar en qué semanas está activo
+    this.usuarioTurnosFiltrados.forEach(turno => {
+      const fechaInicio = new Date(turno.fechaInicio);
+      const fechaFin = new Date(turno.fechaFin);
+      
+      // Para cada semana del mes
+      for (let semanaIndex = 0; semanaIndex < totalSemanas; semanaIndex++) {
+        // Calcular el rango de fechas de esta semana
+        const inicioSemana = new Date(primerLunes);
+        inicioSemana.setDate(primerLunes.getDate() + (semanaIndex * 7));
+        
+        const finSemana = new Date(inicioSemana);
+        finSemana.setDate(inicioSemana.getDate() + 6); // 6 días después del inicio (lunes a domingo)
+        
+        // Verificar si hay intersección entre el turno y esta semana
+        if (!(fechaFin < inicioSemana || fechaInicio > finSemana)) {
+          // Si hay intersección, agregar el turno a esta semana
+          this.usuarioTurnosPorSemana[semanaIndex].push(turno);
+        }
+      }
+    });
+    
+    // Generar etiquetas para las semanas
+    this.cabeceras = Array.from({ length: totalSemanas }, (_, i) => {
+      const inicio = new Date(primerLunes);
+      inicio.setDate(primerLunes.getDate() + (i * 7));
+      
+      const fin = new Date(inicio);
+      fin.setDate(inicio.getDate() + 6);
+      
+      return `Semana ${i + 1} (${inicio.getDate()}/${inicio.getMonth() + 1} - ${fin.getDate()}/${fin.getMonth() + 1})`;
+    });
+  }
+
   cargarTurnos() {
     this.registroTurnoService
       .getAllUsuariosTurno()
       .subscribe((data: UsuarioTurno[]) => {
         this.usuarioTurnos = data;
-        // Se activa el filtro automáticamente si ya hay un mes seleccionado
         const mesActual = Number(this.AsignacionTurnoFormMes.get('mes')?.value);
         if (!isNaN(mesActual)) {
-          this.usuarioTurnosFiltrados = this.usuarioTurnos.filter((turno) => {
-            return new Date(turno.fechaInicio).getMonth() === mesActual;
-          });
-          this.usuarioTurnosPorSemana = this.separarTurnosPorSemana(
-            this.usuarioTurnosFiltrados
-          );
+          this.filtrarTurnosPorMesYDistribuirEnSemanas(mesActual);
         }
       });
   }
@@ -245,44 +305,24 @@ export class RegistroTurnoComponent implements OnInit {
       .getAllUsuariosTurno()
       .subscribe((data: UsuarioTurno[]) => {
         this.usuarioTurnos = data;
-        this.usuarioTurnosPorSemana = this.separarTurnosPorSemana(data);
+        const mesActual = Number(this.AsignacionTurnoFormMes.get('mes')?.value);
+        if (!isNaN(mesActual)) {
+          this.filtrarTurnosPorMesYDistribuirEnSemanas(mesActual);
+        }
       });
   }
 
+  // Este método ya no se usa, pero lo mantenemos por compatibilidad
   separarTurnosPorSemana(turnos: UsuarioTurno[]): UsuarioTurno[][] {
-    const semanas: UsuarioTurno[][] = [];
-
-    if (!turnos.length) return semanas;
-
-    // Usamos el primer turno para obtener mes y año
-    const ejemploFecha = new Date(turnos[0].fechaInicio);
-    const mes = ejemploFecha.getMonth();
-    const anio = ejemploFecha.getFullYear();
-
-    const primerDiaMes = new Date(anio, mes, 1);
-    const ultimoDiaMes = new Date(anio, mes + 1, 0);
-
-    // Encontramos el primer lunes antes o igual al día 1 del mes
-    const primerLunes = new Date(primerDiaMes);
-    const day = primerLunes.getDay();
-    primerLunes.setDate(primerLunes.getDate() - ((day + 6) % 7)); // lunes = 0
-
-    // Creamos semanas desde el primer lunes hasta fin del mes
-    let inicioSemana = new Date(primerLunes);
-    while (inicioSemana <= ultimoDiaMes) {
-      const finSemana = new Date(inicioSemana);
-      finSemana.setDate(finSemana.getDate() + 6); // domingo
-
-      const semanaActual = turnos.filter((t) => {
-        const fecha = new Date(t.fechaInicio);
-        return fecha >= inicioSemana && fecha <= finSemana;
-      });
-
-      semanas.push(semanaActual);
-      inicioSemana.setDate(inicioSemana.getDate() + 7); // avanzar una semana
+    // Obtenemos el mes seleccionado
+    const mesIndex = Number(this.AsignacionTurnoFormMes.get('mes')?.value);
+    if (isNaN(mesIndex)) {
+      return [[], [], [], [], []];
     }
-
-    return semanas;
+    
+    // Usamos el nuevo método para distribuir los turnos
+    this.filtrarTurnosPorMesYDistribuirEnSemanas(mesIndex);
+    return this.usuarioTurnosPorSemana;
   }
 
   calcularSemanasDelMes(mesIndex: number): number {
@@ -307,15 +347,6 @@ export class RegistroTurnoComponent implements OnInit {
     return fecha.getDay(); // 0 = domingo, ..., 6 = sábado
   }
 
-  private _filter(value: string): Ingeniero[] {
-    const filterValue = value.toLowerCase();
-    return this.Ingenieros.filter(
-      (ing) =>
-        ing.fullname.toLowerCase().includes(filterValue) &&
-        //  !this.selectedIngenieros.includes(ing.fullname)
-        !this.selectedIngenieros.some((sel) => sel.id === ing.id)
-    );
-  }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     //const value = event.option.viewValue;
@@ -424,28 +455,7 @@ export class RegistroTurnoComponent implements OnInit {
                   `Se han guardado exitosamente ${completedOperations} turnos`
                 );
                 // Recargar lista de turnos desde el backend
-                this.registroTurnoService
-                  .getAllUsuariosTurno()
-                  .subscribe((data: UsuarioTurno[]) => {
-                    this.usuarioTurnos = data;
-
-                    const mesActual = Number(
-                      this.AsignacionTurnoFormMes.get('mes')?.value
-                    );
-                    if (!isNaN(mesActual)) {
-                      this.usuarioTurnosFiltrados = this.usuarioTurnos.filter(
-                        (turno) => {
-                          return (
-                            new Date(turno.fechaInicio).getMonth() === mesActual
-                          );
-                        }
-                      );
-
-                      this.usuarioTurnosPorSemana = this.separarTurnosPorSemana(
-                        this.usuarioTurnosFiltrados
-                      );
-                    }
-                  });
+                this.cargarTurnos();
                 this.resetForm();
                 this.selectedIngenieros = [];
               } else {
@@ -500,7 +510,7 @@ export class RegistroTurnoComponent implements OnInit {
     }
   }
 
-  eliminarTurno(id: number) {
+  eliminarTurno(id: number, semanaIndex?: number) {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción no se puede deshacer',
@@ -513,7 +523,8 @@ export class RegistroTurnoComponent implements OnInit {
         this.registroTurnoService.deleteUsuarioTurno(id).subscribe({
           next: () => {
             Swal.fire('Eliminado', 'El turno ha sido eliminado', 'success');
-            this.cargarTurnos(); // o recargar las semanas filtradas
+            // Recarga todos los turnos desde el backend para mantener la persistencia y consistencia
+            this.cargarTurnos();
           },
           error: () => {
             Swal.fire('Error', 'No se pudo eliminar el turno', 'error');
@@ -614,5 +625,4 @@ export class RegistroTurnoComponent implements OnInit {
     this.resetForm();
     this.selectedIngenieros = [];
   }
-
 }

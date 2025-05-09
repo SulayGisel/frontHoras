@@ -41,5 +41,9 @@ updateUsuarioTurno(id: number, dto: CreateUsuarioTurnoDto) {
   return this.http.patch(`${environment.url}usuario-turno/${id}`, dto);
 }
 
+getAllTurnos() {
+  return this.http.get<any[]>(`${environment.url}turno`);
+}
+
 
 }

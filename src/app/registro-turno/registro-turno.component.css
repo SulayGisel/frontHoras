@@ -1,33 +1,589 @@
+/* Fix para el campo de fecha con borde azul */
+.date-field-fix {
+  width: 100%;
+}
+
+/* Eliminar los estilos de borde predeterminados de Material */
+::ng-deep .date-field-fix .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+::ng-deep .date-field-fix .mat-mdc-form-field-flex {
+  border: 2px solid #1976d2;
+  border-radius: 8px !important;
+  background-color: white;
+  padding: 0 10px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* Eliminar notch outline */
+::ng-deep .date-field-fix .mdc-notched-outline {
+  display: none !important;
+}
+
+/* Ajustar padding interno */
+::ng-deep .date-field-fix .mat-mdc-form-field-infix {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  min-height: 40px;
+}
+
+/* Eliminar espacios extras */
+::ng-deep .date-field-fix .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* Ajustar tamaño del campo para que coincida con el select */
+.custom-blue-select {
+  width: 100%;
+  height: 40px; /* Ajustar para que coincida con el campo de fecha */
+  padding: 0 15px;
+  border: 2px solid #1976d2;
+  border-radius: 8px;
+}
+
+/* Asegurar que las filas estén correctamente alineadas */
+.row.gx-3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.row.gx-3 > .col-md-6 {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+/* Espaciado para las etiquetas */
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+
+
+
+
+
+
+
+::ng-deep .moderno-periodo-u.mat-mdc-form-field.mat-mdc-form-field-outline.mat-focused .mat-mdc-notched-outline {
+  border-color: #115293 !important; /* Azul más oscuro al enfocar */
+}
+
+.align-mat-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Alinea al mismo nivel que el select */
+  height: 100%;
+}
+
+
+.blue-bordered-field {
+  .mat-form-field-outline {
+    color: #1976d2;
+  }
+
+  .mat-form-field-outline-thick {
+    border-color: #1976d2;
+  }
+}
+
+
+.center-agregar-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.center-agregar-btn .form-select {
+  max-width: 350px;
+}
+
+/* Opcional: centrar en pantallas pequeñas también */
+@media (max-width: 768px) {
+  .center-agregar-btn {
+    width: 100%;
+  }
+}
+
+.acciones-iconos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  gap: 12px; /* Espacio entre botones */
+}
+
+.acciones-iconos .mat-icon-button {
+  min-width: 28px;
+  height: 50px;
+  width: 28px;
+  padding: 0;
+}
+
+.acciones-iconos .mat-icon {
+  line-height: 16px;
+
+}
+
+.boton-editar {
+  background-color: #43a047 !important; /* Verde minimalista */
+  color: #ffffff !important;
+  min-width: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  box-shadow: none;
+  border: none;
+  transition: background 0.2s;
+}
+
+.boton-editar:hover {
+  background-color: #2e7031 !important; /* Verde más oscuro al hover */
+}
+
+.boton-editar mat-icon {
+  color: #fff !important;
+}
+
+.boton-eliminar {
+  background-color: #ef5350; /* Gris claro */
+  color: #fdfdfd;            /* Negro suave */
+  min-width: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boton-editar mat-icon,
+.boton-eliminar mat-icon,
+.boton-eliminar img {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+}
+
+
+
+#tablaCabeceras{
+  background-color: #fbc02d;
+}
+#divCabeceras{
+  background-color: #6981eb;
+
+}
+
+
+.container {
+ /* max-width: 500px;*/
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: center;
+  border: 1px solid #aaa;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+
+
+
+
+
+
+
+
+/*fin tabla */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: rgb(32, 32, 32); /* Etiquetas en color negro */
+}
+.form-group {
+  margin-bottom: 15px;
+}
+/* --- Nuevas clases para separación visual y orden --- */
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.form-row > .col-md-6 {
+  flex: 1 1 calc(50% - 10px);
+  min-width: 280px;
+}
+
+.section-block {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #dcdcdc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row > .col-md-6 {
+    flex: 0 0 100%;
+    margin-bottom: 15px;
+  }
+}
+
+
+
+
+
+::ng-deep .yellow-bordered-field.mat-mdc-form-field.mat-mdc-form-field-outline .mat-mdc-notched-outline {
+  border-color: #fdd835 !important; /* Amarillo */
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+::ng-deep .yellow-bordered-field.mat-mdc-form-field.mat-mdc-form-field-outline.mat-focused .mat-mdc-notched-outline {
+  border-color: #fbc02d !important; /* Amarillo más fuerte al enfocar */
+}
+
+::ng-deep .blue-bordered-field.mat-mdc-form-field.mat-mdc-form-field-outline .mat-mdc-notched-outline {
+  border-color: #2196f3 !important; /* Azul Material */
+  border-width: 2px;
+  border-radius: 8px;
+}
+
+::ng-deep .blue-bordered-field.mat-mdc-form-field.mat-mdc-form-field-outline.mat-focused .mat-mdc-notched-outline {
+  border-color: #1976d2 !important; /* Azul más intenso al enfocar */
+}
+
+
+#asignacionM{
+  background-color: chartreuse;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table-hover {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table-hover th,
+.table-hover td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px 12px;
+}
+
+.table-hover th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.table-hover tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-hover tr:last-child {
+  border-bottom: none;
+}
+
+.table-hover .btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.bg-light-blue {
+  background-color: #eaf4ff;
+}
+
+
+
+
+
+
+
+
+
+
+/*** fi m css tabla */
 .registro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff; /* Resalta en azul */
+}
+.turno-form-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Estilos de la tarjeta */
+.card {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.card .card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.card .card-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #4285F4;
+}
+
+.card .card-body {
   padding: 20px;
 }
 
-.turno-form-container {
-  margin-bottom: 30px;
+/* Estilos de los campos de formulario */
+.form-field-container {
+  margin-bottom: 12px;
+}
+
+.field-label {
+  color: #1a73e8;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* Estilos para mantener consistencia en los campos de Material */
+::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  min-height: 54px;
+}
+
+/* Personalización de los bordes y colores de Material Form Fields */
+::ng-deep .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(66, 133, 244, 0.05);
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-form-field-flex {
+  border-color: #4285F4;
+}
+
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+  color: #4285F4;
+}
+
+::ng-deep .mat-mdc-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline-thick {
+  color: #4285F4;
+}
+
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline-start,
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline-end,
+::ng-deep .mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline-gap {
+  border-radius: 8px;
+}
+
+/* Estilo para select personalizado (alternativa si no usas mat-select) */
+.form-select {
+  width: 100%;
+  padding: 12px 15px;
+  height: 48px;
+  border: 2px solid #4285F4;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.25);
+}
+
+/* Estilo para input de búsqueda */
+.search-input {
+  border: 2px solid #4285F4;
+  border-radius: 8px;
+  padding: 12px 15px;
+  width: 100%;
+  height: 48px;
+}
+
+/* Estilo para chips */
+::ng-deep .mat-mdc-chip {
+  background-color: rgba(66, 133, 244, 0.1) !important;
+  color: #4285F4 !important;
+  border: 1px solid rgba(66, 133, 244, 0.3) !important;
+}
+
+::ng-deep .mat-mdc-chip-remove {
+  color: #4285F4 !important;
+}
+
+/* Botones de acción */
+.action-button {
+  min-width: 120px;
+  padding: 10px 24px;
+  font-weight: 500;
+  border-radius: 8px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* Personalización del botón primario */
+button[color="primary"] {
+  background-color: #4285F4 !important;
+  color: white !important;
+}
+
+button[color="primary"]:hover {
+  background-color: #3367d6 !important;
+}
+
+/* Personalización del botón de cancelar */
+button[color="warn"] {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+button[color="warn"]:hover {
+  background-color: #c82333 !important;
+}
+
+/* Ajuste de posiciones para filas y columnas */
+.row.gx-3 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+.row.gx-3 .col-md-6 {
+  padding-left: 12px;
+  padding-right: 12px;
+  flex: 0 0 calc(50% - 0px);
+  box-sizing: border-box;
+}
+
+/* Estilos para el campo de fecha */
+::ng-deep .mat-date-range-input {
+  border-radius: 8px;
+}
+
+/* Estilo del datepicker toggle */
+::ng-deep .mat-datepicker-toggle-active {
+  color: #4285F4;
+}
+
+/* Moderno para Periodo U (date range) */
+.moderno-periodo-u .mat-mdc-form-field-flex {
+  background: #fff;
+  border: 2px solid #1976d2; /* Azul más fuerte */
+  border-radius: 8px;
+  transition: border-color 0.3s;
+  min-height: 48px;
+  align-items: center;
+}
+
+.moderno-periodo-u .mat-mdc-form-field-flex:focus-within,
+.moderno-periodo-u .mat-mdc-form-field.mat-focused .mat-mdc-form-field-flex {
+  border-color: #1565c0; /* Azul aún más intenso al enfocar */
+  box-shadow: 0 0 0 2px rgba(33,150,243,0.15);
+}
+
+.moderno-periodo-u .mat-mdc-form-field-infix {
+  padding: 0 12px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.moderno-periodo-u .mat-mdc-form-field-outline {
+  display: none;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  .row.gx-3 .col-md-6 {
+    flex: 0 0 100%;
+    margin-bottom: 15px;
+  }
+  
+  .action-button + .action-button {
+    margin-left: 0 !important;
+    margin-top: 10px;
+  }
+  
+  /* Ajuste de tamaños para móvil */
+  .form-select, .search-input {
+    height: 44px;
+    padding: 10px 12px;
+  }
 }
 
 .agregar-btn-right {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.agregar-btn-right .action-button + .action-button {
+  margin-left: 8px;
 }
 
 
-.boton-editar {
-  color: #12406d;
-}
 
-.boton-eliminar {
-  color: #d32f2f;
-}
-
-.custom-blue-select {
-  border: 1px solid #1976d2;
-}
-
-.date-field-fix {
-  margin-top: 10px;
-}
-
-.yellow-bordered-field {
-  border-color: #fbc02d;
-}

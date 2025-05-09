@@ -150,7 +150,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let turno of semana" >
+          <tr *ngFor="let turno of semana">
             <td>{{ turno.fullname }}</td>
             <td>{{ turno.fechaInicio | date: 'shortDate' }}</td>
             <td>{{ turno.fechaFin | date: 'shortDate' }}</td>
@@ -159,7 +159,7 @@
               <button mat-icon-button class="boton-editar" aria-label="Editar" (click)="editarTurno(turno)">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button class="boton-eliminar" aria-label="Eliminar" (click)="eliminarTurno(turno.idUsuarioTurno)" >
+              <button mat-icon-button class="boton-eliminar" aria-label="Eliminar" (click)="eliminarTurno(turno.idUsuarioTurno, i)">
                 <img src="https://cdn.jsdelivr.net/npm/@mdi/svg/svg/delete.svg" alt="Eliminar" width="24" height="24" style="filter: invert(1);" />
               </button>
             </td>
