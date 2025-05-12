@@ -37,7 +37,7 @@
   <!-- Periodo U con borde azul corregido -->
   <div class="col-md-6">
     <div class="form-group">
-      <label for="periodoU">Periodo U</label>
+      <label for="periodoU">Fecha</label>
       <mat-form-field class="w-100 date-field-fix" appearance="outline">
         <!-- Eliminamos el mat-label duplicado -->
         <mat-date-range-input [rangePicker]="pickerU">
@@ -58,7 +58,7 @@
           <div >
             <div class="col-12">
               <div class="form-group">
-                <label for="asignacionM">Asignación múltiple</label>
+                <label for="asignacionM">Ingeniero</label>
                 <mat-form-field class="w-100 yellow-bordered-field">
                   <mat-chip-grid
                     #chipList
@@ -135,13 +135,43 @@
   </form>
 </div>
 
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+ <!-- Botón para eliminar seleccionados -->
+      <button 
+        mat-raised-button 
+        color="warn" 
+        class="action-button"
+        [disabled]="turnosSeleccionados.size === 0"
+        (click)="eliminarSeleccionados()">
+        <mat-icon>delete</mat-icon>
+        Eliminar seleccionados ({{ turnosSeleccionados.size }})
+      </button>
+      
+      <!-- Botón para limpiar selección -->
+      <button
+        *ngIf="turnosSeleccionados.size > 0"
+        mat-button
+        color="accent"
+        (click)="limpiarSeleccion()">
+        Limpiar selección
+      </button>
+    </div>
+
 <!-- Mat Tab Group con pestañas generadas dinámicamente -->
 <mat-tab-group *ngIf="usuarioTurnosPorSemana.length > 0">
   <mat-tab *ngFor="let semana of usuarioTurnosPorSemana; let i = index" [label]="'Semana ' + (i + 1)">
+
     <div class="table-responsive">
       <table class="table table-hover text-center">
         <thead class="table-light">
           <tr>
+            <th>
+              <mat-checkbox 
+                [checked]="todosSeleccionadosSemana(semana)"
+                [indeterminate]="algunoSeleccionadoSemana(semana) && !todosSeleccionadosSemana(semana)"
+                (change)="toggleSeleccionarTodosSemana(semana, $event.checked)">
+              </mat-checkbox>
+            </th>
             <th>Ingeniero</th>
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
@@ -151,6 +181,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let turno of semana">
+            <td>
+              <mat-checkbox
+                [checked]="estaSeleccionado(turno.idUsuarioTurno)"
+                (change)="toggleSeleccion(turno.idUsuarioTurno)">
+              </mat-checkbox>
+            </td>
             <td>{{ turno.fullname }}</td>
             <td>{{ turno.fechaInicio | date: 'shortDate' }}</td>
             <td>{{ turno.fechaFin | date: 'shortDate' }}</td>
@@ -169,6 +205,7 @@
     </div>
   </mat-tab>
 </mat-tab-group>
+
 </div>
 </div>
 </div>
